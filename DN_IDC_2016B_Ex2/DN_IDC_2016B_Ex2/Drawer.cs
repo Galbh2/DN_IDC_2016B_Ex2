@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DN_IDC_2016B_Ex2
 {
+
+
+    //asdasdasdasd
     class Drawer
     {
     }
