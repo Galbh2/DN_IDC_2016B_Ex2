@@ -13,13 +13,20 @@ namespace DN_IDC_2016B_Ex2
         private int m_Points;
         private bool m_IsComputer;
         private char m_Symbol;
+        private Board m_Board;
 
-        public Player (string i_Name, bool i_IsComputer, char i_Symbol)
+        public Player (string i_Name, bool i_IsComputer, char i_Symbol, Board i_Board)
         {
             m_Name = i_Name;
             m_IsComputer = i_IsComputer;
             m_Symbol = i_Symbol;
             m_Points = 0;
+            m_Board = i_Board;
+        }
+
+        public eGameStatus insert(int i_Col)
+        {
+            return m_Board.insert(i_Col);
         }
 
         public int M_Points {

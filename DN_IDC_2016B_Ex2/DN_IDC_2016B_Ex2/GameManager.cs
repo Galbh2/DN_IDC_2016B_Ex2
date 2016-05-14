@@ -13,29 +13,59 @@ namespace DN_IDC_2016B_Ex2
         private Board m_Board;
         private eTurn m_Turn;
         private bool m_IsComputerMode;
+        private int m_NumOfRows;
+        private int m_NumOfCol;
 
         public GameManager(string i_NameA, string i_NameB,
                             bool i_IsComputer, int i_NumOfRows,
                             int i_NumOfCol)
         {
-            m_Player_a = new Player(i_NameA, false, 'X');
-            m_Player_b = new Player(i_NameB, i_IsComputer, 'O');
             m_IsComputerMode = i_IsComputer;
             m_Board = new Board(i_NumOfRows, i_NumOfCol);
-
+            m_Player_a = new Player(i_NameA, false, 'X', m_Board);
+            m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
         }
 
         public Board insert (int i_Col, out eGameStatus o_Status, out eTurn o_Turn)
         {
 
-            o_Status = eGameStatus.failure;
-            o_Turn = eTurn.turn_player_a;
+            eGameStatus result;
+
+            if (m_Turn == eTurn.turn_player_a) // Player A Turn
+            {
+                result = m_Player_a.insert(i_Col);
+                if (result == eGameStatus.win)
+                {
+                    o_Status = eGameStatus.win_player_a;
+                    m_Turn = eTurn.turn_player_a; //the player who wins will start the next game
+                }
+            } else // Player B Turn
+            {
+                result = m_Player_b.insert(i_Col);
+                if (result == eGameStatus.win)
+                {
+                    o_Status = eGameStatus.win_player_b;
+                    m_Turn = eTurn.turn_player_b;
+                }
+            }
+
+            // In case of a tie we will switch the turn
+            if (result == eGameStatus.tie)
+            {
+                m_Turn = getNextTurn();
+            }
+
+            o_Status = result;
+            o_Turn = m_Turn;
             return m_Board;
         }
 
-        public void newGame()
+        public Board NewGame()
         {
-
+            m_Board = new Board(m_NumOfRows, m_NumOfCol);
+            m_Player_a.M_Board = m_Board;
+            m_Player_b.M_Board = m_Board;
+            return m_Board
         }
 
         private eTurn getNextTurn()
@@ -59,6 +89,7 @@ namespace DN_IDC_2016B_Ex2
     {
         win_player_a,
         win_player_b,
+        win,
         tie,
         failure
     }
