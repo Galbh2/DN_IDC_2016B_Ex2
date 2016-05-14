@@ -80,7 +80,7 @@ namespace DN_IDC_2016B_Ex2
             }
         }
 
-        public bool checkPlace(int i_Col)
+        private bool checkPlace(int i_Col)
         {
             int rowNumber = m_NextPlaceToInsert[i_Col] + 1;
             char symbolOfPlayer = m_Board[rowNumber, i_Col];
@@ -159,17 +159,19 @@ namespace DN_IDC_2016B_Ex2
         private string getRightDiagStr(int i_Col, int i_Row)
         {
             StringBuilder diag = new StringBuilder();
-            while (i_Row > 0 && i_Col < m_NumOfColumns)
+            while (i_Row > 0 && i_Col < m_NumOfColumns -1)
             {
                 i_Row--;
                 i_Col++;
             }
 
-            while (i_Row < m_NumOfRows && i_Col >= 0)
+            while (i_Row < m_NumOfRows -1 && i_Col > 0)
             {
+               
                 diag.Append(m_Board[i_Row, i_Col]);
                 i_Row++;
                 i_Col--;
+
 
             }
             return diag.ToString();
