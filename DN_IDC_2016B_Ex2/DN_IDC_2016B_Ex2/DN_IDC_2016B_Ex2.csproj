@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="Cmd.cs" />
+    <Compile Include="Computer.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Player.cs" />

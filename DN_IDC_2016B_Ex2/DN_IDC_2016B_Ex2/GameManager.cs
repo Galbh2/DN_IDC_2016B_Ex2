@@ -23,7 +23,16 @@ namespace DN_IDC_2016B_Ex2
             m_IsComputerMode = i_IsComputer;
             m_Board = new Board(i_NumOfRows, i_NumOfCol);
             m_Player_a = new Player(i_NameA, false, 'X', m_Board);
-            m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
+
+            if (i_IsComputer)
+            {
+                m_Player_b = new Computer(i_NameB, i_IsComputer, 'O', m_Board);
+            }
+            else
+            {
+                m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
+            }
+
             m_NumOfRows = i_NumOfRows;
             m_NumOfCol = i_NumOfCol;
         }
@@ -66,25 +75,26 @@ namespace DN_IDC_2016B_Ex2
 
         public string OnPlayerSurrended()
         {
+            string name = null;
+
             if (m_Turn == eTurn.turn_player_a)
             {
                 m_Player_b.AddPoint();
-                return m_Player_a.M_Name;
+                name = m_Player_a.M_Name;
             }
             else
             {
                 m_Player_a.AddPoint();
-                return m_Player_b.M_Name;
+                name = m_Player_b.M_Name;
             }
+            m_Turn = getNextTurn();
+            return name;
             
         }
 
-        public eGameStatus GetTurn()
+        public eTurn GetTurn()
         {
-            
-           
-                return m_Turn;
-            
+            return m_Turn;
         }
 
         public string GetGamesPoints()

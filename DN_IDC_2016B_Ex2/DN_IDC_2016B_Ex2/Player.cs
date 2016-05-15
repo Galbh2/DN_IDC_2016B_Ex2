@@ -9,11 +9,11 @@ namespace DN_IDC_2016B_Ex2
     class Player
     {
 
-        private string m_Name;
-        private int m_Points;
-        private bool m_IsComputer;
-        private char m_Symbol;
-        private Board m_Board;
+        protected string m_Name;
+        protected int m_Points;
+        protected bool m_IsComputer;
+        protected char m_Symbol;
+        protected Board m_Board;
 
         public Player (string i_Name, bool i_IsComputer, char i_Symbol, Board i_Board)
         {
@@ -24,7 +24,7 @@ namespace DN_IDC_2016B_Ex2
             m_Board = i_Board;
         }
 
-        public eGameStatus Insert(int i_Col)
+        public virtual eGameStatus Insert(int i_Col)
         {
             return m_Board.insert(i_Col, m_Symbol);
         }

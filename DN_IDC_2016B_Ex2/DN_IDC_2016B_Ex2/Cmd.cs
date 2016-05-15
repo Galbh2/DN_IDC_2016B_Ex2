@@ -38,15 +38,20 @@ namespace DN_IDC_2016B_Ex2
 
         public void Run()
         {
+            bool play = true;
             startFirstGame();
-            if (m_ComputerMode)
-            {
-                runOnePlayerFlow();
-            } 
-            else
-            {
-                runTwoPlayersFlow();
-            }
+
+            while (play)
+            { 
+                if (m_ComputerMode)
+                {
+                    runOnePlayerFlow();
+                }
+                else
+                {
+                    runTwoPlayersFlow();
+                }
+             }
         }
 
         private void checkSurrenderCondition(int i_ColNum, ref eGameStatus o_Status)
@@ -97,7 +102,7 @@ namespace DN_IDC_2016B_Ex2
                 else
                 {
                     Ex02.ConsoleUtils.Screen.Clear();
-                    m_Drawer.printBoard(board.getBoard());
+               //     m_Drawer.printBoard(board.getBoard());
 
                     // computer move
 
@@ -184,14 +189,6 @@ namespace DN_IDC_2016B_Ex2
             else
             {
                 m_GameManager.NewGame();
-                if (m_ComputerMode)
-                {
-                    runOnePlayerFlow();
-                }
-                else
-                {
-                    runTwoPlayersFlow();
-                }
             }   
         }
 
