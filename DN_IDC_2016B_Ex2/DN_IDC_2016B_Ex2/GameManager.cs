@@ -79,9 +79,19 @@ namespace DN_IDC_2016B_Ex2
             
         }
 
+        public eGameStatus GetTurn()
+        {
+            
+           
+                return m_Turn;
+            
+        }
+
         public string GetGamesPoints()
         {
-            return m_Player_a.M_Points.ToString() + ", " + m_Player_b.M_Points.ToString();
+            return string.Format("{0} {1} : {2} {3}",
+                m_Player_a.M_Name, m_Player_a.M_Points,
+                m_Player_b.M_Points, m_Player_b.M_Name);
         }
 
         public Board NewGame()

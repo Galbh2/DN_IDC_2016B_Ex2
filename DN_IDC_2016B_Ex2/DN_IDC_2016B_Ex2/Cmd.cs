@@ -13,7 +13,7 @@ namespace DN_IDC_2016B_Ex2
         private string m_AskForCols = "Enter the number of columns (min = 4, max = 8) or Q to Exit:";
         private string m_AskForNumOfPlayers = "Enter the number of players (if 1 you will play aginst the computer):";
         private string m_TurnMsg = "Player {0} turn";
-        private string m_AskForAMove = "Enter a column number:";
+        private string m_AskForAMove = "Enter a column number (or Q to surrender):";
         private string m_WinMsg = "Player {0} Won !";
         private string m_TieMsg = "It's a Tie !";
         private string m_PlayAgainMsg = "Hit Q to exit, or any other key to continue play...";
@@ -47,7 +47,14 @@ namespace DN_IDC_2016B_Ex2
             {
                 runTwoPlayersFlow();
             }
+        }
 
+        private void checkSurrenderCondition(int i_ColNum, ref eGameStatus o_Status)
+        {
+            if (i_ColNum == -1)
+            {
+                o_Status = eGameStatus.surrender;
+            }
         }
 
         private void runOnePlayerFlow()
@@ -66,17 +73,26 @@ namespace DN_IDC_2016B_Ex2
             {
 
                 //TODO: fix the situation when the computer makes the first move
-                //TODO: create a function for surreneder condition
-                turnName = m_GameManager.GetTurnName();
-                System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
-                colNumber = getColNumFromUser(string.Format(m_AskForAMove, turnName));
-                checkExitCondition(colNumber);
-
-                board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
-
-                if (status == eGameStatus.failure)
+                
+                if (m_GameManager.GetTurn() == eTurn.turn_player_a)
                 {
-                    System.Console.WriteLine(m_FailureMsg);
+                    turnName = m_GameManager.GetTurnName();
+                    System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
+                    colNumber = getColNumFromUser(string.Format(m_AskForAMove, turnName));
+
+                    checkSurrenderCondition(colNumber, ref status);
+
+                    if (status == eGameStatus.surrender)
+                    {
+                        break;
+                    }
+
+                    board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
+
+                    if (status == eGameStatus.failure)
+                    {
+                        System.Console.WriteLine(m_FailureMsg);
+                    }
                 }
                 else
                 {
@@ -90,7 +106,6 @@ namespace DN_IDC_2016B_Ex2
                     board = m_GameManager.Insert(-1, out status, out turnName);
                     m_Drawer.printBoard(board.getBoard());
                 }
-
             }
 
             onGameEnd(status);
@@ -114,7 +129,13 @@ namespace DN_IDC_2016B_Ex2
                 turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
                 colNumber = getColNumFromUser(string.Format(m_AskForAMove, turnName));
-                checkExitCondition(colNumber);
+                checkSurrenderCondition(colNumber, ref status);
+
+                // Check if the user surrended
+                if (status == eGameStatus.surrender)
+                {
+                    break;
+                }
 
                 board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
 
@@ -156,7 +177,7 @@ namespace DN_IDC_2016B_Ex2
             System.Console.WriteLine(m_PlayAgainMsg);
             string input = System.Console.ReadLine();
 
-            if (input.Equals('Q'))
+            if (input.Equals("Q"))
             {
                 Environment.Exit(0);
             }
