@@ -113,6 +113,9 @@ namespace DN_IDC_2016B_Ex2
                 }
             }
 
+            Ex02.ConsoleUtils.Screen.Clear();
+            m_Drawer.printBoard(m_GameManager.M_Board.getBoard());
+
             onGameEnd(status);
 
         }
