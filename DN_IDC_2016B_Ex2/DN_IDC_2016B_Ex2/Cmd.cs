@@ -78,13 +78,13 @@ namespace DN_IDC_2016B_Ex2
                 else
                 {
                     Ex02.ConsoleUtils.Screen.Clear();
-                    // TODO: print the board
+                    m_Drawer.printBoard(board.getBoard());
                 }
 
                 System.Console.WriteLine(string.Format(m_TurnMsg, m_GameManager.GetTurnName()));
                 Ex02.ConsoleUtils.Screen.Clear();
                 board = m_GameManager.Insert(-1, out status, out turnName);
-                // TODO: print the board
+                m_Drawer.printBoard(board.getBoard());
             }
 
             onGameEnd(status);
@@ -118,7 +118,7 @@ namespace DN_IDC_2016B_Ex2
                 else
                 {
                     Ex02.ConsoleUtils.Screen.Clear();
-                    // TODO: print the board
+                    m_Drawer.printBoard(board.getBoard());
                 }
             }
             onGameEnd(status);
