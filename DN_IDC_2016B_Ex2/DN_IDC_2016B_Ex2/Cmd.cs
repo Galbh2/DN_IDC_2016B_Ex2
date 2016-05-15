@@ -64,6 +64,9 @@ namespace DN_IDC_2016B_Ex2
             while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
                 || status != eGameStatus.win_player_b || status !=eGameStatus.surrender)
             {
+
+                //TODO: fix the situation when the computer makes the first move
+                //TODO: create a function for surreneder condition
                 turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
                 colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
