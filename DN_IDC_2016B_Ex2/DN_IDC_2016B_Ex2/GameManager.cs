@@ -114,10 +114,16 @@ namespace DN_IDC_2016B_Ex2
             }
         }
 
-
-
-     
+        public Board M_Board
+        {
+            get
+            {
+                return m_Board;
+            }
+        }
     }
+
+ 
 
     public enum eGameStatus
     {

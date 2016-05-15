@@ -29,6 +29,7 @@ namespace DN_IDC_2016B_Ex2
         private GameManager m_GameManager;
         private Drawer m_Drawer;
         private bool m_ComputerMode;
+        private int m_ColNum;
 
         public Cmd()
         {
@@ -39,6 +40,7 @@ namespace DN_IDC_2016B_Ex2
         {
             startFirstGame();
             Ex02.ConsoleUtils.Screen.Clear();
+            m_Drawer.printBoard(m_GameManager.M_Board.getBoard());
             if (m_ComputerMode)
             {
                 runOnePlayerFlow();
@@ -69,7 +71,7 @@ namespace DN_IDC_2016B_Ex2
                 //TODO: create a function for surreneder condition
                 turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
-                colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
+                colNumber = getColNumFromUser(string.Format(m_AskForAMove, turnName));
                 checkExitCondition(colNumber);
 
                 board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
@@ -113,7 +115,7 @@ namespace DN_IDC_2016B_Ex2
             {
                 turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
-                colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
+                colNumber = getColNumFromUser(string.Format(m_AskForAMove, turnName));
                 checkExitCondition(colNumber);
 
                 board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
@@ -176,16 +178,17 @@ namespace DN_IDC_2016B_Ex2
 
         private void startFirstGame()
         {
-            int numOfRows = 1;
-            int numOfCols;
+            int numOfRows = -1;
+            int numOfCols = -1;
             int computerMode;
 
 
             // Getting the input for initializing the game 
-            getNumFromUser(m_AskForRows);
+            numOfRows = getNumFromUser(m_AskForRows);
             checkExitCondition(numOfRows);
             numOfCols = getNumFromUser(m_AskForCols);
             checkExitCondition(numOfCols);
+            m_ColNum = numOfCols;
             computerMode = getComputerMode();
             checkExitCondition(computerMode);
             parseComputerMode(computerMode);
@@ -246,6 +249,30 @@ namespace DN_IDC_2016B_Ex2
 
         }
 
+        private int getColNumFromUser(String i_Msg)
+        {
+            bool succeed = false;
+            int result = -1;
+            string input;
+
+            while (!succeed)
+            {
+                System.Console.WriteLine(i_Msg);
+                input = System.Console.ReadLine();
+
+                if (input.Equals("Q"))
+                {
+                    result = -1;
+                    break;
+                }
+                succeed = int.TryParse(input, out result);
+                succeed = succeed && (1 <= result && result <= m_ColNum);
+            }
+
+            return result;
+        }
+    
+
         private int getNumFromUser(string i_Msg)
         {
             bool succeed = false;
@@ -257,9 +284,10 @@ namespace DN_IDC_2016B_Ex2
                 System.Console.WriteLine(i_Msg);
                 input = System.Console.ReadLine();
 
-                if (input.Equals('Q'))
+                if (input.Equals("Q"))
                 {
-                    return -1;
+                    result = -1;
+                    break;
                 }
                 succeed = int.TryParse(input, out result);
                 succeed = succeed && (m_MinNum <= result && result <= m_MaxNum);
