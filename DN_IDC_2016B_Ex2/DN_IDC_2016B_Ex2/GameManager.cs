@@ -26,26 +26,28 @@ namespace DN_IDC_2016B_Ex2
             m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
         }
 
-        public Board insert (int i_Col, out eGameStatus o_Status, out eTurn o_Turn)
+        public Board Insert (int i_Col, out eGameStatus o_Status, out eTurn o_Turn)
         {
 
             eGameStatus result;
 
             if (m_Turn == eTurn.turn_player_a) // Player A Turn
             {
-                result = m_Player_a.insert(i_Col);
+                result = m_Player_a.Insert(i_Col);
                 if (result == eGameStatus.win)
                 {
                     o_Status = eGameStatus.win_player_a;
                     m_Turn = eTurn.turn_player_a; //the player who wins will start the next game
+                    m_Player_a.AddPoint();
                 }
             } else // Player B Turn
             {
-                result = m_Player_b.insert(i_Col);
+                result = m_Player_b.Insert(i_Col);
                 if (result == eGameStatus.win)
                 {
                     o_Status = eGameStatus.win_player_b;
                     m_Turn = eTurn.turn_player_b;
+                    m_Player_b.AddPoint();
                 }
             }
 
@@ -65,7 +67,7 @@ namespace DN_IDC_2016B_Ex2
             m_Board = new Board(m_NumOfRows, m_NumOfCol);
             m_Player_a.M_Board = m_Board;
             m_Player_b.M_Board = m_Board;
-            return m_Board
+            return m_Board;
         }
 
         private eTurn getNextTurn()

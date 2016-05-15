@@ -24,9 +24,26 @@ namespace DN_IDC_2016B_Ex2
             m_Board = i_Board;
         }
 
-        public eGameStatus insert(int i_Col)
+        public eGameStatus Insert(int i_Col)
         {
             return m_Board.insert(i_Col);
+        }
+
+        public void AddPoint()
+        {
+            m_Points++;
+        }
+
+        public Board M_Board
+        {
+            get
+            {
+                return m_Board;
+            }
+            set
+            {
+                m_Board = value;
+            }
         }
 
         public int M_Points {
