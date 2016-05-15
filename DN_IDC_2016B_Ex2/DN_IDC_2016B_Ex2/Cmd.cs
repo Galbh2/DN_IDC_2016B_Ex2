@@ -12,13 +12,13 @@ namespace DN_IDC_2016B_Ex2
         private string m_AskForRows = "Enter the number of rows (min = 4, max = 8), or Q to Exit:";
         private string m_AskForCols = "Enter the number of columns (min = 4, max = 8) or Q to Exit:";
         private string m_AskForNumOfPlayers = "Enter the number of players (if 1 you will play aginst the computer):";
-        private string m_TurnMsg = "Player's {0} turn";
+        private string m_TurnMsg = "Player {0} turn";
         private string m_AskForAMove = "Enter a column number:";
         private string m_WinMsg = "Player {0} Won !";
         private string m_TieMsg = "It's a Tie !";
         private string m_PlayAgainMsg = "Hit Q to exit, or any other key to continue play...";
-        private string m_PlayerAName = "Player a";
-        private string m_PlayerBName = "Player b";
+        private string m_PlayerAName = "A";
+        private string m_PlayerBName = "B";
         private string m_FailureMsg = "Choose another column...";
         private string m_SurrenderMsg = "{0} surrended";
 
@@ -39,8 +39,6 @@ namespace DN_IDC_2016B_Ex2
         public void Run()
         {
             startFirstGame();
-            Ex02.ConsoleUtils.Screen.Clear();
-            m_Drawer.printBoard(m_GameManager.M_Board.getBoard());
             if (m_ComputerMode)
             {
                 runOnePlayerFlow();
@@ -60,11 +58,11 @@ namespace DN_IDC_2016B_Ex2
             int colNumber;
             Board board = null;
 
-            
+            Ex02.ConsoleUtils.Screen.Clear();
+            m_Drawer.printBoard(m_GameManager.M_Board.getBoard());
 
             // Start the game flow until surrender, tie or a win.
-            while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
-                || status != eGameStatus.win_player_b || status !=eGameStatus.surrender)
+            while (status == eGameStatus.failure || status == eGameStatus.succeedd)
             {
 
                 //TODO: fix the situation when the computer makes the first move
@@ -107,11 +105,11 @@ namespace DN_IDC_2016B_Ex2
             int colNumber;
             Board board = null;
 
-           
+            Ex02.ConsoleUtils.Screen.Clear();
+            m_Drawer.printBoard(m_GameManager.M_Board.getBoard());
 
             // Start the game flow until surrender tie or a win.
-            while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
-                || status != eGameStatus.win_player_b || status != eGameStatus.surrender)
+            while (status == eGameStatus.failure || status == eGameStatus.succeedd)
             {
                 turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));

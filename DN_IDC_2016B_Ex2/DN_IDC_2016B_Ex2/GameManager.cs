@@ -13,8 +13,8 @@ namespace DN_IDC_2016B_Ex2
         private Board m_Board;
         private eTurn m_Turn;
         private bool m_IsComputerMode;
-        private int m_NumOfRows = -1;
-        private int m_NumOfCol = -1;
+        private int m_NumOfRows = 4;
+        private int m_NumOfCol = 4;
 
         public GameManager(string i_NameA, string i_NameB,
                             bool i_IsComputer, int i_NumOfRows,
@@ -24,6 +24,8 @@ namespace DN_IDC_2016B_Ex2
             m_Board = new Board(i_NumOfRows, i_NumOfCol);
             m_Player_a = new Player(i_NameA, false, 'X', m_Board);
             m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
+            m_NumOfRows = i_NumOfRows;
+            m_NumOfCol = i_NumOfCol;
         }
 
         public Board Insert (int i_Col, out eGameStatus o_Status, out string o_TurnName)
@@ -36,7 +38,7 @@ namespace DN_IDC_2016B_Ex2
                 result = m_Player_a.Insert(i_Col);
                 if (result == eGameStatus.win)
                 {
-                    o_Status = eGameStatus.win_player_a;
+                    result = eGameStatus.win_player_a;
                     m_Turn = eTurn.turn_player_a; //the player who wins will start the next game
                     m_Player_a.AddPoint();
                 }
@@ -45,7 +47,7 @@ namespace DN_IDC_2016B_Ex2
                 result = m_Player_b.Insert(i_Col);
                 if (result == eGameStatus.win)
                 {
-                    o_Status = eGameStatus.win_player_b;
+                    result = eGameStatus.win_player_b;
                     m_Turn = eTurn.turn_player_b;
                     m_Player_b.AddPoint();
                 }
