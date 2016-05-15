@@ -58,13 +58,13 @@ namespace DN_IDC_2016B_Ex2
             int colNumber;
             Board board = null;
 
-            turnName = m_GameManager.GetTurnName();
+            
 
-
-            // Start the game flow until 'Q', tie or a win.
+            // Start the game flow until surrender, tie or a win.
             while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
                 || status != eGameStatus.win_player_b || status !=eGameStatus.surrender)
             {
+                turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
                 colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
                 checkExitCondition(colNumber);
@@ -79,12 +79,15 @@ namespace DN_IDC_2016B_Ex2
                 {
                     Ex02.ConsoleUtils.Screen.Clear();
                     m_Drawer.printBoard(board.getBoard());
+
+                    // computer move
+
+                    System.Console.WriteLine(string.Format(m_TurnMsg, m_GameManager.GetTurnName()));
+                    Ex02.ConsoleUtils.Screen.Clear();
+                    board = m_GameManager.Insert(-1, out status, out turnName);
+                    m_Drawer.printBoard(board.getBoard());
                 }
 
-                System.Console.WriteLine(string.Format(m_TurnMsg, m_GameManager.GetTurnName()));
-                Ex02.ConsoleUtils.Screen.Clear();
-                board = m_GameManager.Insert(-1, out status, out turnName);
-                m_Drawer.printBoard(board.getBoard());
             }
 
             onGameEnd(status);
@@ -99,12 +102,13 @@ namespace DN_IDC_2016B_Ex2
             int colNumber;
             Board board = null;
 
-            turnName = m_GameManager.GetTurnName();
+           
 
-            // Start the game flow until 'Q', tie or a win.
+            // Start the game flow until surrender tie or a win.
             while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
                 || status != eGameStatus.win_player_b || status != eGameStatus.surrender)
             {
+                turnName = m_GameManager.GetTurnName();
                 System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
                 colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
                 checkExitCondition(colNumber);

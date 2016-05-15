@@ -13,8 +13,8 @@ namespace DN_IDC_2016B_Ex2
         private Board m_Board;
         private eTurn m_Turn;
         private bool m_IsComputerMode;
-        private int m_NumOfRows;
-        private int m_NumOfCol;
+        private int m_NumOfRows = -1;
+        private int m_NumOfCol = -1;
 
         public GameManager(string i_NameA, string i_NameB,
                             bool i_IsComputer, int i_NumOfRows,
