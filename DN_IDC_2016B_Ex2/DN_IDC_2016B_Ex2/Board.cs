@@ -13,7 +13,7 @@ namespace DN_IDC_2016B_Ex2
         private int m_NumOfRows;
         private int m_NumOfColumns;
 
-        public Board (int i_NumOfRows, int i_NumOfCol)
+       public Board (int i_NumOfRows, int i_NumOfCol)
         {
             m_Board = new char[i_NumOfRows, i_NumOfCol];
             m_NumOfRows = i_NumOfRows;
@@ -22,26 +22,37 @@ namespace DN_IDC_2016B_Ex2
             initNextPlaceToInsert(i_NumOfRows);
         }
 
-        public char[,] getBoard()
+       public char[,] getBoard()
         {
             return m_Board;
         }
 
-       public bool insert(int i_Col , char i_Symbol)
+       public eGameStatus insert(int i_Col , char i_Symbol)
        {
-            bool succsed = true;
-            if (m_NextPlaceToInsert[i_Col] == -1)
-            {
-                succsed = false;
-            }
-            else
+            eGameStatus status;    
+            if (m_NextPlaceToInsert[i_Col] > - 1)
             {
                 m_Board[m_NextPlaceToInsert[i_Col], i_Col] = i_Symbol;
                 m_NextPlaceToInsert[i_Col]--;
+                if (checkPlace(i_Col))
+                {
+                    status = eGameStatus.win;
+                }
+                else if (isBoardFull())
+                {
+                    status = eGameStatus.tie;
+                }
+                else
+                {
+                    status = eGameStatus.succeedd;
+                }
 
             }
-
-            return true;
+            else
+            {
+                status = eGameStatus.failure;
+            }
+            return status;   
         }
 
         
