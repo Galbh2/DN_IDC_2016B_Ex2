@@ -26,7 +26,7 @@ namespace DN_IDC_2016B_Ex2
             m_Player_b = new Player(i_NameB, i_IsComputer, 'O', m_Board);
         }
 
-        public Board Insert (int i_Col, out eGameStatus o_Status, out eTurn o_Turn)
+        public Board Insert (int i_Col, out eGameStatus o_Status, out string o_TurnName)
         {
 
             eGameStatus result;
@@ -51,15 +51,35 @@ namespace DN_IDC_2016B_Ex2
                 }
             }
 
-            // In case of a tie we will switch the turn
-            if (result == eGameStatus.tie)
+            // In case of a tie or an insert which succeed we will switch the turn
+            if (result == eGameStatus.tie || result ==eGameStatus.succeedd)
             {
                 m_Turn = getNextTurn();
             }
 
             o_Status = result;
-            o_Turn = m_Turn;
+            o_TurnName = GetTurnName();
             return m_Board;
+        }
+
+        public string OnPlayerSurrended()
+        {
+            if (m_Turn == eTurn.turn_player_a)
+            {
+                m_Player_b.AddPoint();
+                return m_Player_a.M_Name;
+            }
+            else
+            {
+                m_Player_a.AddPoint();
+                return m_Player_b.M_Name;
+            }
+            
+        }
+
+        public string GetGamesPoints()
+        {
+            return m_Player_a.M_Points.ToString() + ", " + m_Player_b.M_Points.ToString();
         }
 
         public Board NewGame()
@@ -68,6 +88,18 @@ namespace DN_IDC_2016B_Ex2
             m_Player_a.M_Board = m_Board;
             m_Player_b.M_Board = m_Board;
             return m_Board;
+        }
+
+        public string GetTurnName()
+        {
+            if (m_Turn == eTurn.turn_player_a)
+            {
+                return m_Player_a.M_Name;
+            }
+            else
+            {
+                return m_Player_b.M_Name;
+            }
         }
 
         private eTurn getNextTurn()
@@ -91,6 +123,8 @@ namespace DN_IDC_2016B_Ex2
     {
         win_player_a,
         win_player_b,
+        succeedd,
+        surrender,
         win,
         tie,
         failure

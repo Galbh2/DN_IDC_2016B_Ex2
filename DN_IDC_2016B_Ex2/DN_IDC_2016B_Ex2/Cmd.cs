@@ -16,9 +16,11 @@ namespace DN_IDC_2016B_Ex2
         private string m_AskForAMove = "Enter a column number:";
         private string m_WinMsg = "Player {0} Won !";
         private string m_TieMsg = "It's a Tie !";
-        private string m_PlayAgainMsg = "Do you want to play again ?";
+        private string m_PlayAgainMsg = "Hit Q to exit, or any other key to continue play...";
         private string m_PlayerAName = "Player a";
         private string m_PlayerBName = "Player b";
+        private string m_FailureMsg = "Choose another column...";
+        private string m_SurrenderMsg = "{0} surrended";
 
         private readonly int m_MinNum = 4;
         private readonly int m_MaxNum = 8;
@@ -35,7 +37,134 @@ namespace DN_IDC_2016B_Ex2
 
         public void Run()
         {
-           // Ex02.ConsoleUtils.Screen.Clear();
+            startFirstGame();
+            Ex02.ConsoleUtils.Screen.Clear();
+            if (m_ComputerMode)
+            {
+                runOnePlayerFlow();
+            } 
+            else
+            {
+                runTwoPlayersFlow();
+            }
+
+        }
+
+        private void runOnePlayerFlow()
+        {
+
+            string turnName;
+            eGameStatus status = eGameStatus.succeedd;
+            int colNumber;
+            Board board = null;
+
+            turnName = m_GameManager.GetTurnName();
+
+
+            // Start the game flow until 'Q', tie or a win.
+            while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
+                || status != eGameStatus.win_player_b || status !=eGameStatus.surrender)
+            {
+                System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
+                colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
+                checkExitCondition(colNumber);
+
+                board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
+
+                if (status == eGameStatus.failure)
+                {
+                    System.Console.WriteLine(m_FailureMsg);
+                }
+                else
+                {
+                    Ex02.ConsoleUtils.Screen.Clear();
+                    // TODO: print the board
+                }
+
+                System.Console.WriteLine(string.Format(m_TurnMsg, m_GameManager.GetTurnName()));
+                Ex02.ConsoleUtils.Screen.Clear();
+                board = m_GameManager.Insert(-1, out status, out turnName);
+                // TODO: print the board
+            }
+
+            onGameEnd(status);
+
+        }
+
+        private void runTwoPlayersFlow()
+        {
+
+            string turnName;
+            eGameStatus status = eGameStatus.succeedd;
+            int colNumber;
+            Board board = null;
+
+            turnName = m_GameManager.GetTurnName();
+
+            // Start the game flow until 'Q', tie or a win.
+            while (status != eGameStatus.tie || status != eGameStatus.win_player_a 
+                || status != eGameStatus.win_player_b || status != eGameStatus.surrender)
+            {
+                System.Console.WriteLine(string.Format(m_TurnMsg, turnName));
+                colNumber = getNumFromUser(string.Format(m_AskForAMove, turnName));
+                checkExitCondition(colNumber);
+
+                board = m_GameManager.Insert(colNumber - 1, out status, out turnName);
+
+                if (status == eGameStatus.failure)
+                {
+                    System.Console.WriteLine(m_FailureMsg);
+                }
+                else
+                {
+                    Ex02.ConsoleUtils.Screen.Clear();
+                    // TODO: print the board
+                }
+            }
+            onGameEnd(status);
+        }
+
+        private void onGameEnd(eGameStatus i_GameStatus)
+        {
+            switch (i_GameStatus)
+            {
+                case eGameStatus.win_player_a:
+                    System.Console.WriteLine(string.Format(m_WinMsg, m_PlayerAName));
+                    break;
+                case eGameStatus.win_player_b:
+                    System.Console.WriteLine(string.Format(m_WinMsg, m_PlayerBName));
+                    break;
+                case eGameStatus.tie:
+                    System.Console.WriteLine(m_TieMsg);
+                    break;
+                case eGameStatus.surrender:
+                    System.Console.WriteLine(string.Format(m_SurrenderMsg, 
+                        m_GameManager.OnPlayerSurrended()));
+                    break;
+            }
+
+            System.Console.WriteLine(m_GameManager.GetGamesPoints());
+            // asking the user if he wants to play another game
+
+            System.Console.WriteLine(m_PlayAgainMsg);
+            string input = System.Console.ReadLine();
+
+            if (input.Equals('Q'))
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                m_GameManager.NewGame();
+                if (m_ComputerMode)
+                {
+                    runOnePlayerFlow();
+                }
+                else
+                {
+                    runTwoPlayersFlow();
+                }
+            }   
         }
 
         private void startFirstGame()
@@ -43,9 +172,9 @@ namespace DN_IDC_2016B_Ex2
             int numOfRows = 1;
             int numOfCols;
             int computerMode;
-            string playerBName =
 
-                        // Getting the input for initializing the game 
+
+            // Getting the input for initializing the game 
             getNumFromUser(m_AskForRows);
             checkExitCondition(numOfRows);
             numOfCols = getNumFromUser(m_AskForCols);
@@ -81,6 +210,8 @@ namespace DN_IDC_2016B_Ex2
         {
             if (i_ExitCode == -1)
             {
+                System.Console.WriteLine("Hit any key to exit...");
+                System.Console.ReadLine();
                 Environment.Exit(0);
             }
         }
