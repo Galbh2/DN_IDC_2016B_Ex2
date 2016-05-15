@@ -14,8 +14,10 @@ namespace DN_IDC_2016B_Ex2
        
         public void printBoard(char[,] i_Board)
         {
+            System.Console.WriteLine();
             printHeader(i_Board.GetLength(1));
             System.Console.WriteLine();
+
             printRows(i_Board);
         }
 

@@ -159,13 +159,13 @@ namespace DN_IDC_2016B_Ex2
         private string getRightDiagStr(int i_Col, int i_Row)
         {
             StringBuilder diag = new StringBuilder();
-            while (i_Row > 0 && i_Col < m_NumOfColumns -1)
+            while (i_Row > 0 && i_Col < m_NumOfColumns - 1)
             {
                 i_Row--;
                 i_Col++;
             }
 
-            while (i_Row < m_NumOfRows -1 && i_Col > 0)
+            while (i_Row < m_NumOfRows && i_Col >= 0)
             {
                
                 diag.Append(m_Board[i_Row, i_Col]);
