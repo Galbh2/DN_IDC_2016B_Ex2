@@ -8,5 +8,10 @@ namespace DN_IDC_2016B_Ex2
 {
     class Program
     {
+    public static void Main()
+        {
+            Cmd cmd = new Cmd();
+            cmd.Run();
+        }
     }
 }
