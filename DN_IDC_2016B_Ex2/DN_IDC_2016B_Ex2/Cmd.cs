@@ -12,13 +12,13 @@ namespace DN_IDC_2016B_Ex2
         private string m_AskForRows = "Enter the number of rows (min = 4, max = 8), or Q to Exit:";
         private string m_AskForCols = "Enter the number of columns (min = 4, max = 8) or Q to Exit:";
         private string m_AskForNumOfPlayers = "Enter the number of players (if 1 you will play aginst the computer):";
-        private string m_TurnMsg = "Player {0} turn";
+        private string m_TurnMsg = "{0} turn";
         private string m_AskForAMove = "Enter a column number (or Q to surrender):";
-        private string m_WinMsg = "Player {0} Won !";
+        private string m_WinMsg = "{0} Won !";
         private string m_TieMsg = "It's a Tie !";
         private string m_PlayAgainMsg = "Hit Q to exit, or any other key to continue play...";
-        private string m_PlayerAName = "A";
-        private string m_PlayerBName = "B";
+        private string m_PlayerAName = "Player-A";
+        private string m_PlayerBName = "Player-B";
         private string m_FailureMsg = "Choose another column...";
         private string m_SurrenderMsg = "{0} surrended";
 

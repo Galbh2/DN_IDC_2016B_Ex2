@@ -165,7 +165,7 @@ namespace DN_IDC_2016B_Ex2
                 i_Col++;
             }
 
-            while (i_Row < m_NumOfRows && i_Col >= 0)
+            while (i_Row < m_NumOfRows && i_Col > 0)
             {
                
                 diag.Append(m_Board[i_Row, i_Col]);
@@ -175,6 +175,18 @@ namespace DN_IDC_2016B_Ex2
 
             }
             return diag.ToString();
+        }
+
+        public void Delelte(int i_Col)
+        {
+            char emptyChar = ' ';
+            m_NextPlaceToInsert[i_Col]++;
+            m_Board[m_NextPlaceToInsert[i_Col], i_Col] = emptyChar;
+           
+
+
+
+
         }
         
 
