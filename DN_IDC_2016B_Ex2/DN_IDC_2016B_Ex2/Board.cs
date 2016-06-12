@@ -55,8 +55,18 @@ namespace DN_IDC_2016B_Ex2
             return status;   
         }
 
-        
-      
+        public int CheckCols(int i_Index)
+        {
+            if (m_NextPlaceToInsert[i_Index] > -1)
+            {
+                return -1;
+            }
+            else
+            {
+                return i_Index;
+            }
+        }
+
 
         private bool isBoardFull()
         {

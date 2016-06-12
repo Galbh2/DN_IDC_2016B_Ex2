@@ -16,6 +16,8 @@ namespace DN_IDC_2016B_Ex2
         private int m_NumOfRows = 4;
         private int m_NumOfCol = 4;
 
+        public event Action<int> FullColNotifier;
+
         public GameManager(string i_NameA, string i_NameB,
                             bool i_IsComputer, int i_NumOfRows,
                             int i_NumOfCol)
@@ -66,11 +68,21 @@ namespace DN_IDC_2016B_Ex2
             if (result == eGameStatus.tie || result ==eGameStatus.succeedd)
             {
                 m_Turn = getNextTurn();
+                //Checks if the col is full
+                OnColFull(m_Board.CheckCols(i_Col));
             }
 
             o_Status = result;
             o_TurnName = GetTurnName();
             return m_Board;
+        }
+
+        protected virtual void OnColFull(int i_Index)
+        {
+            if (FullColNotifier != null && i_Index != -1)
+            {
+                FullColNotifier.Invoke(i_Index);
+            }
         }
 
         public string OnPlayerSurrended()
@@ -141,6 +153,45 @@ namespace DN_IDC_2016B_Ex2
             get
             {
                 return m_Board;
+            }
+        }
+
+        public int Rows
+        {
+            get
+            {
+                return m_NumOfRows;
+            }
+        }
+
+        public int Cols
+        {
+            get
+            {
+                return m_NumOfCol;
+            }
+        }
+
+        public bool Computermode
+        {
+            get
+            {
+                return m_IsComputerMode;
+            }
+        }
+
+        public string PlayerA
+        {
+            get
+            {
+                return m_Player_a.M_Name;
+            }
+        }
+
+        public string PlayerB        {
+            get
+            {
+                return m_Player_b.M_Name;
             }
         }
     }

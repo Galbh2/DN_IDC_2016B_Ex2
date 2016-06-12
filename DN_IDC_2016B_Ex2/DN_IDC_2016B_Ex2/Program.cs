@@ -10,8 +10,11 @@ namespace DN_IDC_2016B_Ex2
     {
     public static void Main()
         {
-            Cmd cmd = new Cmd();
-            cmd.Run();
+            // Cmd cmd = new Cmd();
+            // cmd.Run();
+
+            OptionsForm ui = new OptionsForm();
+            ui.ShowDialog();
         }
     }
 }
