@@ -16,35 +16,68 @@ namespace DN_IDC_2016B_Ex2
         public override eGameStatus Insert(int i_Col)
         {
             Random random = new Random();
-            int col = random.Next(0, m_Board.getBoard().GetLength(1));
+            int col;
+            col = getColForWin();////try to win the game
+            if (col == -1)
+            {
+                col = getColForBlock();///try to block the other player from win
+                if (col == -1)
+                {
+                    col = random.Next(0, m_Board.getBoard().GetLength(1));////get random column
+
+                }
+            }
+
+           
             return m_Board.insert(col, m_Symbol);
 
         }
 
-        public int getBestCol()
-        {
-            int counter = 0;
-            int max = 0;
-            int bestCol = 0;
-            char[,] board = m_Board.getBoard();
+      
 
-            for (int i = 0; i < board.GetLength(1); i++)
+        
+
+         private int getColForWin()
+        {
+            int col = -1;
+            for(int i = 0; i < m_Board.getBoard().GetLength(1); i++)
             {
-                for (int j = 0; j < board.GetLength(0); j++)
+
+                eGameStatus stat = m_Board.insert(i, m_Symbol);
+                m_Board.Delelte(i);
+                if (stat == eGameStatus.win)
                 {
-                    if (board[j,1] == M_Symbol)
-                    {
-                        counter++;
-                    }
+                    col = i;
+                    break;
+
                 }
-                if (counter > max)
-                {
-                    max = counter;
-                    bestCol = i;
-                }
-                counter = 0;
             }
-            return bestCol;
+
+            return col;
         }
+
+        private int getColForBlock()
+        {
+            int col = -1;
+            char playerAsymbol = 'X';
+            for (int i = 0; i < m_Board.getBoard().GetLength(1); i++)
+            {
+
+                eGameStatus stat = m_Board.insert(i, playerAsymbol);
+                m_Board.Delelte(i);
+                if (stat == eGameStatus.win)
+                {
+                    col = i;
+                    break;
+                }
+            }
+
+            return col;
+        }
+
+
+
+
+
     }
 }

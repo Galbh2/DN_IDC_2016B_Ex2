@@ -99,9 +99,9 @@ namespace DN_IDC_2016B_Ex2
 
         public string GetGamesPoints()
         {
-            return string.Format("{0} {1} : {2} {3}",
+            return string.Format("-----------\n   Score  |\n   -----  |\n{0} {1}|\n{2} {3}|\n-----------",
                 m_Player_a.M_Name, m_Player_a.M_Points,
-                m_Player_b.M_Points, m_Player_b.M_Name);
+               m_Player_b.M_Name, m_Player_b.M_Points);
         }
 
         public Board NewGame()
