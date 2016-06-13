@@ -37,6 +37,8 @@ namespace DN_IDC_2016B_Ex2
 
             m_NumOfRows = i_NumOfRows;
             m_NumOfCol = i_NumOfCol;
+
+            m_Board.FullColNotifier += this.OnColFull;
         }
 
         public Board Insert (int i_Col, out eGameStatus o_Status, out string o_TurnName)
@@ -68,8 +70,6 @@ namespace DN_IDC_2016B_Ex2
             if (result == eGameStatus.tie || result ==eGameStatus.succeedd)
             {
                 m_Turn = getNextTurn();
-                //Checks if the col is full
-                OnColFull(m_Board.CheckCols(i_Col));
             }
 
             o_Status = result;
@@ -79,7 +79,7 @@ namespace DN_IDC_2016B_Ex2
 
         protected virtual void OnColFull(int i_Index)
         {
-            if (FullColNotifier != null && i_Index != -1)
+            if (FullColNotifier != null)
             {
                 FullColNotifier.Invoke(i_Index);
             }

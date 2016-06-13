@@ -214,7 +214,7 @@ namespace DN_IDC_2016B_Ex2
             GameManager manager = new GameManager(
                     PlayerANameText.Text,
                     PlayerBNameText.Text,
-                    PlayerBCheckBox.Checked,
+                    !PlayerBCheckBox.Checked,
                     (int)RowsNum.Value,
                     (int)ColsNum.Value
                 );

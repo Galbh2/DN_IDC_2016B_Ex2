@@ -38,8 +38,9 @@ namespace DN_IDC_2016B_Ex2
 
         }
 
-        public void OnBoardChanged(Board board, eGameStatus)
+        public void OnBoardChanged(Board i_Board, eGameStatus i_Status)
         {
+            refreshUI(i_Board);
 
         }
 
@@ -76,7 +77,7 @@ namespace DN_IDC_2016B_Ex2
 
             for (int i = 0; i < m_GameManager.Cols; i++)
             {
-                InsertButton b = new InsertButton(i, m_GameManager);
+                InsertButton b = new InsertButton(i, m_GameManager, this);
                 b.Location = new Point(
                     baseX + i * (margin + BTN_SIZE),
                     baseY
@@ -163,7 +164,21 @@ namespace DN_IDC_2016B_Ex2
                 string turnName;
                 eGameStatus status;
                 Board board = m_GameManager.Insert(m_Index, out status, out turnName);
-                m_UI.OnBoardChanged(board, status)
+                m_UI.OnBoardChanged(board, status);
+
+                System.Console.WriteLine(status.ToString());
+                System.Console.WriteLine(turnName);
+        
+
+                if (m_GameManager.Computermode && status == eGameStatus.succeedd)
+                {
+                    m_GameManager.Insert(-1, out status, out turnName);
+                    m_UI.OnBoardChanged(board, status);
+
+
+                    System.Console.WriteLine(status.ToString());
+                    System.Console.WriteLine(turnName);
+                }
                 
             }
 
