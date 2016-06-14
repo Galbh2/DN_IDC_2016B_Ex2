@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DN_IDC_2016B_Ex2
 {
+
+    public delegate void BoardChangedEvent(Object board, eGameStatus status);
+
     class GameManager
     {
 
@@ -16,6 +19,7 @@ namespace DN_IDC_2016B_Ex2
         private int m_NumOfRows = 4;
         private int m_NumOfCol = 4;
 
+        public event BoardChangedEvent BoardChangeNotifier;
         public event Action<int> FullColNotifier;
 
         public GameManager(string i_NameA, string i_NameB,
@@ -72,9 +76,22 @@ namespace DN_IDC_2016B_Ex2
                 m_Turn = getNextTurn();
             }
 
+            // Invoke callbacks
+
+            onBoardChanged(m_Board, result);
+
             o_Status = result;
             o_TurnName = GetTurnName();
             return m_Board;
+        }
+        
+        // this callback will be called after the board changed
+        protected virtual void onBoardChanged(Board i_Board, eGameStatus i_Status)
+        {
+            if (BoardChangeNotifier != null)
+            {
+                BoardChangeNotifier.Invoke(i_Board, i_Status);
+            }
         }
 
         protected virtual void OnColFull(int i_Index)
@@ -116,11 +133,28 @@ namespace DN_IDC_2016B_Ex2
                m_Player_b.M_Name, m_Player_b.M_Points);
         }
 
+        public int PlayerAScore
+        {
+            get
+            {
+                return m_Player_a.M_Points;
+            }
+        }
+
+        public int PlayerBScore
+        {
+            get
+            {
+                return m_Player_b.M_Points;
+            }
+        }
+
         public Board NewGame()
         {
             m_Board = new Board(m_NumOfRows, m_NumOfCol);
             m_Player_a.M_Board = m_Board;
             m_Player_b.M_Board = m_Board;
+            m_Board.FullColNotifier += this.OnColFull;
             return m_Board;
         }
 

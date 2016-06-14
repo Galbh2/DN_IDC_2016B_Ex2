@@ -12,8 +12,9 @@ namespace DN_IDC_2016B_Ex2
         private int[] m_NextPlaceToInsert;
         private int m_NumOfRows;
         private int m_NumOfColumns;
+        private bool m_BoardFull;
         public event Action<int> FullColNotifier;
-
+   
         public Board (int i_NumOfRows, int i_NumOfCol)
         {
             m_Board = new char[i_NumOfRows, i_NumOfCol];
@@ -36,21 +37,24 @@ namespace DN_IDC_2016B_Ex2
             return m_Board;
         }
 
-       public eGameStatus insert(int i_Col , char i_Symbol)
+       public eGameStatus insert(int i_Col , char i_Symbol, bool i_RunDry)
        {
+            if (i_Col < 0)
+            {
+                return eGameStatus.failure;
+            }
+
             eGameStatus status;    
             if (m_NextPlaceToInsert[i_Col] > - 1)
             {
                 m_Board[m_NextPlaceToInsert[i_Col], i_Col] = i_Symbol;
                 m_NextPlaceToInsert[i_Col]--;
 
-                System.Console.WriteLine(i_Col);
-
                 if (checkPlace(i_Col))
                 {
                     status = eGameStatus.win;
                 }
-                else if (isBoardFull())
+                else if ( (m_BoardFull = isBoardFull()) )
                 {
                     status = eGameStatus.tie;
                 }
@@ -65,16 +69,27 @@ namespace DN_IDC_2016B_Ex2
                 status = eGameStatus.failure;
             }
 
-           // CheckCols(i_Col);
+            if (!i_RunDry)
+            {
+                CheckCols(i_Col);
+            }
 
             return status;   
         }
 
         public void CheckCols(int i_Index)
         {
-            if (!(m_NextPlaceToInsert[i_Index] > -1))
+            if (!(m_NextPlaceToInsert[i_Index] > -1) && FullColNotifier != null)
             {
                 FullColNotifier.Invoke(i_Index);
+            }
+        }
+
+        public bool BoardFull
+        {
+            get
+            {
+                return m_BoardFull;
             }
         }
 

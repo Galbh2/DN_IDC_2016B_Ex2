@@ -84,6 +84,7 @@ namespace DN_IDC_2016B_Ex2
             this.PlayerBCheckBox.Size = new System.Drawing.Size(15, 14);
             this.PlayerBCheckBox.TabIndex = 1;
             this.PlayerBCheckBox.UseVisualStyleBackColor = true;
+            this.PlayerBCheckBox.CheckedChanged += new System.EventHandler(this.PlayerBCheckBox_CheckedChanged);
             // 
             // PlayerANameText
             // 
@@ -224,6 +225,20 @@ namespace DN_IDC_2016B_Ex2
             this.Dispose();
             gameUI.ShowDialog();
             
+        }
+
+        private void PlayerBCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox box = (CheckBox)sender;
+
+            if (box.Checked)
+            {
+                PlayerBNameText.Enabled = true;
+            } else
+            {
+                PlayerBNameText.Enabled = false;
+                PlayerBNameText.Text = "[Computer]";
+            }
         }
     }
 }
